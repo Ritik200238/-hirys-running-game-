@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "name": "hirys-running",
+  "name": "hirys-running-game",
   "builds": [
     {
       "src": "*.html",
@@ -17,13 +17,21 @@
     {
       "src": "*.json",
       "use": "@vercel/static"
+    },
+    {
+      "src": "*.png",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "*.jpg",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "*.ico",
+      "use": "@vercel/static"
     }
   ],
   "routes": [
-    {
-      "src": "/",
-      "dest": "/index.html"
-    },
     {
       "src": "/(.*)",
       "dest": "/$1"
@@ -34,30 +42,18 @@
       "source": "/(.*)",
       "headers": [
         {
-          "key": "Cache-Control",
-          "value": "public, max-age=31536000, immutable"
-        }
-      ]
-    },
-    {
-      "source": "/(.*).js",
-      "headers": [
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
         {
-          "key": "Cache-Control",
-          "value": "public, max-age=31536000, immutable"
-        }
-      ]
-    },
-    {
-      "source": "/(.*).css",
-      "headers": [
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
         {
-          "key": "Cache-Control",
-          "value": "public, max-age=31536000, immutable"
+          "key": "X-XSS-Protection",
+          "value": "1; mode=block"
         }
       ]
     }
-  ],
-  "functions": {},
-  "env": {}
+  ]
 }
