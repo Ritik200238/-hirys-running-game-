@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HIRYS RUNNING - Powered by Irys Datachain</title>
+    
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#6B46C1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="HIRYS RUNNING">
+    
+    <!-- Social Sharing Meta Tags -->
+    <meta property="og:title" content="HIRYS RUNNING - Powered by Irys Datachain">
+    <meta property="og:description" content="Experience the future of programmable data with this retro-futuristic endless runner!">
+    <meta property="og:type" content="game">
+    <meta property="og:image" content="https://pbs.twimg.com/profile_images/1879776802563891200/cdpcRzVY_400x400.jpg">
+    <meta property="og:url" content="">
+    <meta name="twitter:card" content="summary_large_image">
+    
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/png" href="https://pbs.twimg.com/profile_images/1879776802563891200/cdpcRzVY_400x400.jpg">
+</head>
+<body>
+    <div class="game-container">
+        <!-- Irys Logo -->
+        <div class="irys-logo">
+            <img src="https://pbs.twimg.com/profile_images/1879776802563891200/cdpcRzVY_400x400.jpg" alt="Irys Logo" class="logo-image">
+            <span class="logo-text">IRYS</span>
+        </div>
+        
+        <div class="game-header">
+            <h1 class="game-title">HIRYS RUNNING</h1>
+            <div class="score-container">
+                <span class="score-label">SCORE:</span>
+                <span class="score-value" id="score">0</span>
+                <div class="combo-multiplier" id="comboMultiplier" style="display: none;">
+                    <span class="combo-text">COMBO x</span>
+                    <span class="combo-value" id="comboValue">1</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Power-ups Display -->
+        <div class="powerups-container" id="powerupsContainer">
+            <div class="powerup-item" id="speedBoost" style="display: none;">
+                <div class="powerup-icon speed-boost"></div>
+                <span class="powerup-timer" id="speedBoostTimer">5s</span>
+            </div>
+            <div class="powerup-item" id="receiptShield" style="display: none;">
+                <div class="powerup-icon receipt-shield"></div>
+                <span class="powerup-text">SHIELD</span>
+            </div>
+            <div class="powerup-item" id="dataMultiplier" style="display: none;">
+                <div class="powerup-icon data-multiplier"></div>
+                <span class="powerup-timer" id="dataMultiplierTimer">10s</span>
+            </div>
+        </div>
+        
+        <!-- High Score Display -->
+        <div class="high-score-display">
+            <span class="high-score-label">Best:</span>
+            <span class="high-score-value" id="highScore">0</span>
+        </div>
+        
+        <!-- Speed Indicator -->
+        <div id="speedIndicator" class="speed-indicator" style="display: none;">
+            SPEED UP!
+        </div>
+        
+        <!-- Power-ups Container -->
+        
+        <canvas id="gameCanvas" width="1200" height="600"></canvas>
+        
+        <!-- Loading Screen -->
+        <div class="loading-screen" id="loadingScreen">
+            <div class="loading-content">
+                <div class="loading-logo">
+                    <img src="https://pbs.twimg.com/profile_images/1879776802563891200/cdpcRzVY_400x400.jpg" alt="Irys Logo" class="loading-logo-image">
+                </div>
+                <h2 class="loading-title">HIRYS RUNNING</h2>
+                <p class="loading-subtitle">Powered by Irys Datachain</p>
+                <div class="loading-bar">
+                    <div class="loading-progress" id="loadingProgress"></div>
+                </div>
+                <p class="loading-status" id="loadingStatus">Initializing game engine...</p>
+                <div class="loading-tips" id="loadingTips">
+                    <p class="tip-text">Did you know? Data on Irys can execute its own logic!</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="game-overlay" id="gameOverlay">
+            <div class="overlay-content">
+                <h2 class="overlay-title">HIRYS RUNNING</h2>
+                <p class="overlay-subtitle">GOOGLE DINO STYLE</p>
+                <p class="overlay-instructions">JUMP over ground obstacles, DUCK under flying obstacles</p>
+                <p class="overlay-collectibles">Collect Data Receipts and Power-ups for bonus points!</p>
+                <div class="controls-info">
+                    <div class="control-item">
+                        <span class="control-key">SPACE</span>
+                        <span class="control-desc">Jump</span>
+                    </div>
+                    <div class="control-item">
+                        <span class="control-key">↑</span>
+                        <span class="control-desc">Jump</span>
+                    </div>
+                    <div class="control-item">
+                        <span class="control-key">↓</span>
+                        <span class="control-desc">Duck</span>
+                    </div>
+                    <div class="control-item">
+                        <span class="control-key">S/X</span>
+                        <span class="control-desc">Duck</span>
+                    </div>
+                    <div class="control-item">
+                        <span class="control-key">CLICK</span>
+                        <span class="control-desc">Jump</span>
+                    </div>
+                </div>
+                <button class="start-button" id="startButton">START GAME</button>
+            </div>
+        </div>
+        
+        <div class="game-over-screen" id="gameOverScreen" style="display: none;">
+            <div class="overlay-content">
+                <h2 class="overlay-title">Your run was recorded on Irys!</h2>
+                <p class="final-score">Final Score: <span id="finalScore">0</span></p>
+                <div class="score-comparison" id="scoreComparison">
+                    <p class="comparison-text" id="comparisonText">New Personal Best! 🎉</p>
+                </div>
+                <div class="datachain-animation" id="datachainAnimation">
+                    <div class="chain-link"></div>
+                    <div class="chain-link"></div>
+                    <div class="chain-link"></div>
+                    <span class="submit-text">Submit to Datachain</span>
+                </div>
+                <div class="action-buttons">
+                    <button class="screenshot-button" id="screenshotButton">📸 Screenshot</button>
+                    <button class="share-button" id="shareButton">📤 Share Score</button>
+                    <button class="challenge-button" id="challengeButton">🎯 Challenge Friends</button>
+                </div>
+                <button class="restart-button" id="restartButton">Try Again?</button>
+            </div>
+        </div>
+        
+        <!-- Milestone Celebration -->
+        <div class="milestone-celebration" id="milestoneCelebration" style="display: none;">
+            <div class="celebration-content">
+                <h2 class="celebration-title">🎉 ACHIEVEMENT UNLOCKED! 🎉</h2>
+                <p class="celebration-text" id="celebrationText">Data Explorer - 1000 Points!</p>
+                <div class="achievement-icon" id="achievementIcon"></div>
+                <div class="celebration-particles"></div>
+            </div>
+        </div>
+        
+        <!-- New Record Celebration -->
+        <div class="new-record-celebration" id="newRecordCelebration" style="display: none;">
+            <div class="celebration-content">
+                <h2 class="celebration-title">🏆 NEW RECORD! 🏆</h2>
+                <p class="celebration-text">You've set a new personal best!</p>
+                <div class="confetti-container" id="confettiContainer"></div>
+            </div>
+        </div>
+        
+        <!-- Challenge Mode Overlay -->
+        <div class="challenge-overlay" id="challengeOverlay" style="display: none;">
+            <div class="overlay-content">
+                <h2 class="overlay-title">🎯 Challenge Mode</h2>
+                <p class="challenge-text">Beat this score to prove you're a true Datachain Master!</p>
+                <p class="challenge-score">Target: <span id="challengeScore">0</span> points</p>
+                <button class="accept-challenge-button" id="acceptChallengeButton">Accept Challenge</button>
+                <button class="decline-challenge-button" id="declineChallengeButton">Maybe Later</button>
+            </div>
+        </div>
+        
+        <!-- Achievement Unlocked -->
+        <div class="achievement-unlocked" id="achievementUnlocked" style="display: none;">
+            <div class="achievement-content">
+                <div class="achievement-icon-large" id="achievementIconLarge"></div>
+                <h3 class="achievement-title" id="achievementTitle">Data Explorer</h3>
+                <p class="achievement-desc" id="achievementDesc">Reach 1000 points</p>
+            </div>
+        </div>
+        
+        
+        
+        <!-- Social Share Modal -->
+        <div class="share-modal" id="shareModal" style="display: none;">
+            <div class="modal-content">
+                <h3>Share Your Score</h3>
+                <div class="share-preview">
+                    <p id="shareText">I just scored 0 in HIRYS RUNNING! 🚀 The future of programmable data is here. Try it: [link] #IrysDatachain</p>
+                </div>
+                <div class="share-actions">
+                    <button class="copy-button" id="copyButton">📋 Copy Text</button>
+                    <button class="close-share-button" id="closeShareButton">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js')
+                    .then(registration => console.log('SW registered'))
+                    .catch(error => console.log('SW registration failed'));
+            });
+        }
+    </script>
+    
+    <script src="game.js"></script>
+</body>
+</html>

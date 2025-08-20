@@ -1,0 +1,40 @@
+{
+  "name": "hirys-running",
+  "version": "1.0.0",
+  "description": "A retro-futuristic 2D endless runner game featuring the Irys brand aesthetic",
+  "main": "index.html",
+  "scripts": {
+    "start": "python -m http.server 8000",
+    "dev": "python -m http.server 8000",
+    "serve": "python -m http.server 8000",
+    "build": "echo 'Build complete - static files ready for deployment'",
+    "vercel-build": "echo 'Vercel build complete'"
+  },
+  "keywords": [
+    "game",
+    "endless-runner",
+    "2d",
+    "canvas",
+    "javascript",
+    "html5",
+    "irys",
+    "blockchain",
+    "retro-futuristic",
+    "pixel-art"
+  ],
+  "author": "HIRYS Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/hirys-running.git"
+  },
+  "bugs": {
+    "url": "https://github.com/your-username/hirys-running/issues"
+  },
+  "homepage": "https://github.com/your-username/hirys-running#readme",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "devDependencies": {},
+  "dependencies": {}
+}
